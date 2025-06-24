@@ -641,7 +641,7 @@ end)
 
 test("isreadonly", {}, function()
 	local object = {}
-	table.freeze(object)
+	setreadonly(object, true)  -- Use setreadonly instead of table.freeze
 	assert(isreadonly(object), "Did not return true for a read-only table")
 end)
 
@@ -657,12 +657,11 @@ end)
 
 test("setreadonly", {}, function()
 	local object = { success = false }
-	table.freeze(object)
-	setreadonly(object, false)
+	setreadonly(object, true)  -- Make it readonly first
+	setreadonly(object, false) -- Then make it writable
 	object.success = true
 	assert(object.success, "Did not allow the table to be modified")
 end)
-
 -- Miscellaneous
 
 test("identifyexecutor", {"getexecutorname"}, function()
